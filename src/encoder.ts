@@ -13,6 +13,8 @@ const collectInvalidPaths = (schema: Schema, jsonPayload: object) => {
 }
 
 export const MAGIC_BYTE = Buffer.alloc(1)
+// assumes first (or only) message is used
+export const MESSAGE_INDEX_BYTES = Buffer.alloc(1)
 
 export const encode = (schema: Schema, registryId: number, jsonPayload: any) => {
   let avroPayload
@@ -26,5 +28,5 @@ export const encode = (schema: Schema, registryId: number, jsonPayload: any) => 
   const registryIdBuffer = Buffer.alloc(4)
   registryIdBuffer.writeInt32BE(registryId, DEFAULT_OFFSET)
 
-  return Buffer.concat([MAGIC_BYTE, registryIdBuffer, avroPayload])
+  return Buffer.concat([MAGIC_BYTE, registryIdBuffer, MESSAGE_INDEX_BYTES, avroPayload])
 }
